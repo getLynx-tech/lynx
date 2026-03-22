@@ -7,6 +7,11 @@ import (
 )
 
 type Config struct {
+	DBHost            string `mapstructure:"DB_HOST" validate:"required"`
+	DBPort            int    `mapstructure:"DB_PORT" validate:"required"`
+	DBUser            string `mapstructure:"DB_USER" validate:"required"`
+	DBPassword        string `mapstructure:"DB_PASSWORD" validate:"required"`
+	DBName            string `mapstructure:"DB_NAME" validate:"required"`
 	BasicAuthUser     string `mapstructure:"BASIC_AUTH_USER" validate:"required"`
 	BasicAuthPassword string `mapstructure:"BASIC_AUTH_PASSWORD" validate:"required"`
 }

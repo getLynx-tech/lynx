@@ -30,6 +30,11 @@ services:
       dockerfile: .docker/server/Dockerfile
       target: dev
     environment:
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-main}
       BASIC_AUTH_USER: ${BASIC_AUTH_USER:-test}
       BASIC_AUTH_PASSWORD: ${BASIC_AUTH_PASSWORD:-test}
     ports:
@@ -62,6 +67,27 @@ services:
     networks:
       - internal
 
+  db:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: .docker/postgres/Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-main}
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U postgres -d main'" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - internal
+
   auth-db:
     restart: unless-stopped
     build:
@@ -86,6 +112,7 @@ services:
 volumes:
   node-modules-client:
   auth-db-data:
+  db-data:
 
 networks:
   internal:
