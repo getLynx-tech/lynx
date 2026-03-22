@@ -17,9 +17,16 @@ openssl req -x509 -newkey rsa:4096 -sha256 -days 365 \
   -addext "subjectAltName=DNS:dev.getlynx.tech"
 ```
 
+```bash
+openssl req -x509 -newkey rsa:4096 -sha256 -days 365 \
+  -nodes -keyout .docker/nginx/ssl/api.dev.getlynx.tech.key -out .docker/nginx/ssl/api.dev.getlynx.tech.crt \
+  -subj "/CN=api.dev.getlynx.tech" \
+  -addext "subjectAltName=DNS:api.dev.getlynx.tech"
+```
+
 Then add the development domain to your hosts file:
 ```bash
-grep -qXF "127.0.0.1 dev.getlynx.tech" /etc/hosts || echo "127.0.0.1 dev.getlynx.tech" >> /etc/hosts
+grep -qXF "127.0.0.1 api.dev.getlynx.tech dev.getlynx.tech" /etc/hosts || echo "127.0.0.1 api.dev.getlynx.tech dev.getlynx.tech" >> /etc/hosts
 ```
 
 ### Docker Compose

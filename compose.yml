@@ -13,6 +13,8 @@ services:
       - ./.docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./.docker/nginx/ssl/dev.getlynx.tech.crt:/etc/nginx/dev.getlynx.tech.crt:ro
       - ./.docker/nginx/ssl/dev.getlynx.tech.key:/etc/nginx/dev.getlynx.tech.key:ro
+      - ./.docker/nginx/ssl/api.dev.getlynx.tech.crt:/etc/nginx/api.dev.getlynx.tech.crt:ro
+      - ./.docker/nginx/ssl/api.dev.getlynx.tech.key:/etc/nginx/api.dev.getlynx.tech.key:ro
     depends_on:
       - client
     ports:
