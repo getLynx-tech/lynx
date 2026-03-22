@@ -1,12 +1,26 @@
 import { useTRPC } from "~/utils/trpc/react";
 import type { Route } from "./+types/home";
 import { useQuery } from "@tanstack/react-query";
+import { auth } from "~/utils/auth/server";
+import { redirect } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
   ];
+}
+
+export async function loader(loaderArgs: Route.LoaderArgs) {
+  const { request } = loaderArgs;
+
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+
+  if (!session) {
+    return redirect("/login");
+  }
 }
 
 export default function Home() {

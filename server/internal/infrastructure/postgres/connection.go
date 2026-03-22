@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/getLynx-tech/lynx/internal/conf"
+	_ "github.com/lib/pq"
 )
 
 func Connect(cfg *conf.Config) (*sql.DB, error) {

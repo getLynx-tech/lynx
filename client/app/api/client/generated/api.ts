@@ -64,12 +64,16 @@ export const RootApiAxiosParamCreator = function (
     /**
      *
      * @summary Get root
+     * @param {string} xUserID User ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getRoot: async (
+      xUserID: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'xUserID' is not null or undefined
+      assertParamExists("getRoot", "xUserID", xUserID);
       const localVarPath = `/`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -86,6 +90,9 @@ export const RootApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      if (xUserID != null) {
+        localVarHeaderParameter["X-User-ID"] = String(xUserID);
+      }
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -113,16 +120,20 @@ export const RootApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get root
+     * @param {string} xUserID User ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getRoot(
+      xUserID: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseRoot>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getRoot(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getRoot(
+        xUserID,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["RootApi.getRoot"]?.[localVarOperationServerIndex]
@@ -152,12 +163,16 @@ export const RootApiFactory = function (
     /**
      *
      * @summary Get root
+     * @param {string} xUserID User ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getRoot(options?: RawAxiosRequestConfig): AxiosPromise<ResponseRoot> {
+    getRoot(
+      xUserID: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ResponseRoot> {
       return localVarFp
-        .getRoot(options)
+        .getRoot(xUserID, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -173,13 +188,14 @@ export class RootApi extends BaseAPI {
   /**
    *
    * @summary Get root
+   * @param {string} xUserID User ID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RootApi
    */
-  public getRoot(options?: RawAxiosRequestConfig) {
+  public getRoot(xUserID: string, options?: RawAxiosRequestConfig) {
     return RootApiFp(this.configuration)
-      .getRoot(options)
+      .getRoot(xUserID, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

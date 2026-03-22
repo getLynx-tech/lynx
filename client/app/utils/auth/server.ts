@@ -5,20 +5,20 @@ import { db } from "~/db";
 import * as schema from "~/db/schema";
 
 export const auth = betterAuth({
-    database: drizzleAdapter(db, {
-        provider: "pg",
-        schema,
-    }),
-    emailAndPassword: {
-        enabled: true,
-    },
-    plugins: [bearer()],
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema,
+  }),
+  emailAndPassword: {
+    enabled: true,
+  },
+  plugins: [bearer()],
 });
 
 export const getServerSession = async (request: Request) => {
-    return await auth.api.getSession({
-        headers: request.headers,
-    });
+  return await auth.api.getSession({
+    headers: request.headers,
+  });
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

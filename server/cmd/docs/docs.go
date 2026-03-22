@@ -22,6 +22,15 @@ const docTemplate = `{
                 ],
                 "summary": "Get root",
                 "operationId": "getRoot",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User-ID",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
