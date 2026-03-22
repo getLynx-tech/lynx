@@ -12,7 +12,11 @@
   "dependencies": {
     "@react-router/node": "7.13.1",
     "@react-router/serve": "7.13.1",
+    "better-auth": "^1.5.5",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
     "isbot": "^5.1.36",
+    "pg": "^8.20.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router": "7.13.1"
@@ -21,8 +25,10 @@
     "@react-router/dev": "7.13.1",
     "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^22",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "drizzle-kit": "^0.31.10",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
     "vite": "^7.1.7",

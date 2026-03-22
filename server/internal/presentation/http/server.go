@@ -5,6 +5,7 @@ import (
 	"errors"
 	_ "github.com/getLynx-tech/lynx/cmd/docs"
 	"github.com/getLynx-tech/lynx/internal/presentation/http/handler"
+	"github.com/getLynx-tech/lynx/internal/presentation/http/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -18,6 +19,7 @@ type Server struct {
 }
 
 func NewServer(
+	auth *middleware.BasicAuthMiddleware,
 	rootHandler *handler.RootHandler,
 ) *Server {
 	engine := gin.New()
@@ -25,6 +27,7 @@ func NewServer(
 
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	engine.Use(auth.WithBasicAuth())
 	engine.GET("/", rootHandler.GetRoot)
 
 	return &Server{engine: engine}
