@@ -1,5 +1,6 @@
+import { useTRPC } from "~/utils/trpc/react";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { useQuery } from "@tanstack/react-query";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +10,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Welcome />;
+  const trpc = useTRPC();
+  const { data: rootData } = useQuery(trpc.root.getRoot.queryOptions());
+
+  return <p>{rootData?.message}</p>;
 }

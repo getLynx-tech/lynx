@@ -14,12 +14,6 @@ paths:
   /:
     get:
       operationId: getRoot
-      parameters:
-      - description: User ID
-        in: header
-        name: X-User-ID
-        required: true
-        type: string
       responses:
         "200":
           description: OK

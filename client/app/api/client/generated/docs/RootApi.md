@@ -18,16 +18,12 @@ import { RootApi, Configuration } from "./api";
 const configuration = new Configuration();
 const apiInstance = new RootApi(configuration);
 
-let xUserID: string; //User ID (default to undefined)
-
-const { status, data } = await apiInstance.getRoot(xUserID);
+const { status, data } = await apiInstance.getRoot();
 ```
 
 ### Parameters
 
-| Name        | Type         | Description | Notes                 |
-| ----------- | ------------ | ----------- | --------------------- |
-| **xUserID** | [**string**] | User ID     | defaults to undefined |
+This endpoint does not have any parameters.
 
 ### Return type
 
