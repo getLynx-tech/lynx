@@ -1,0 +1,31 @@
+definitions:
+  response.Root:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+info:
+  contact: {}
+  title: Lynx API
+  version: "1.0"
+paths:
+  /:
+    get:
+      operationId: getRoot
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User-ID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Root'
+      summary: Get root
+      tags:
+      - root
+swagger: "2.0"

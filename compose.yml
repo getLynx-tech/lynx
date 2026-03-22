@@ -1,0 +1,44 @@
+name: lynx
+
+services:
+  server:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: .docker/server/Dockerfile
+      target: dev
+    environment:
+      BASIC_AUTH_USER: ${BASIC_AUTH_USER:-test}
+      BASIC_AUTH_PASSWORD: ${BASIC_AUTH_PASSWORD:-test}
+    ports:
+      - "9090:9090"
+      - "40000:40000"
+    volumes:
+      - ./server:/app
+    networks:
+      - internal
+
+  client:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: .docker/client/Dockerfile
+      target: development-dependencies-env
+    command: sh -c "npm run dev -- --host 0.0.0.0"
+    environment:
+      SERVER_BASE_URL: ${SERVER_BASE_URL:-server:9090}
+      SERVER_BASIC_AUTH_USER: ${SERVER_BASIC_AUTH_USER:-test}
+      SERVER_BASIC_AUTH_PASSWORD: ${SERVER_BASIC_AUTH_PASSWORD:-test}
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - node-modules-client:/app/node_modules
+    networks:
+      - internal
+
+volumes:
+  node-modules-client:
+
+networks:
+  internal:
