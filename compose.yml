@@ -1,6 +1,26 @@
 name: lynx
 
 services:
+  nginx:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    healthcheck:
+      test: "curl -f http://localhost:80 || exit 1"
+      interval: 5s
+    volumes:
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./.docker/nginx/ssl/dev.getlynx.tech.crt:/etc/nginx/dev.getlynx.tech.crt:ro
+      - ./.docker/nginx/ssl/dev.getlynx.tech.key:/etc/nginx/dev.getlynx.tech.key:ro
+    depends_on:
+      - client
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - internal
+
   server:
     restart: unless-stopped
     build:
