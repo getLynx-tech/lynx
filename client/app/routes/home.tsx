@@ -1,3 +1,4 @@
+import React from "react";
 import type { Route } from "./+types/home";
 import { auth } from "~/utils/auth/server";
 import { redirect, useLoaderData } from "react-router";
