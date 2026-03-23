@@ -1,5 +1,5 @@
 import axios from "axios";
-import { serverEnv } from "../../../env.server";
+import { serverEnv } from "../../env.server";
 
 export const axiosInstance = axios.create();
 

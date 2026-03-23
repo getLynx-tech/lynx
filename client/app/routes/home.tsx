@@ -1,14 +1,11 @@
-import { useTRPC } from "~/utils/trpc/react";
 import type { Route } from "./+types/home";
-import { useQuery } from "@tanstack/react-query";
 import { auth } from "~/utils/auth/server";
-import { redirect } from "react-router";
+import { redirect, useLoaderData } from "react-router";
+import MapView from "~/components/atoms/map/MapView";
+import { serverEnv } from "~/env.server";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+  return [{ title: "Lynx" }];
 }
 
 export async function loader(loaderArgs: Route.LoaderArgs) {
@@ -21,11 +18,18 @@ export async function loader(loaderArgs: Route.LoaderArgs) {
   if (!session) {
     return redirect("/login");
   }
+
+  const mapBoxAccessToken = serverEnv.MAPBOX_ACCESS_TOKEN;
+
+  return { mapBoxAccessToken };
 }
 
 export default function Home() {
-  const trpc = useTRPC();
-  const { data: rootData } = useQuery(trpc.root.getRoot.queryOptions());
+  const { mapBoxAccessToken } = useLoaderData<typeof loader>();
 
-  return <p>{rootData?.message}</p>;
+  return (
+    <div className="h-screen w-screen">
+      <MapView mapBoxAccessToken={mapBoxAccessToken} />
+    </div>
+  );
 }
