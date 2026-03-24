@@ -6,6 +6,8 @@ package sqlc
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type User struct {
@@ -13,4 +15,13 @@ type User struct {
 	BetterAuthID string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
+}
+
+type Vertex struct {
+	ID        uuid.UUID
+	PolygonID string
+	Longitude float64
+	Latitude  float64
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
