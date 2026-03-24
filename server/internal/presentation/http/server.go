@@ -22,6 +22,7 @@ func NewServer(
 	auth *middleware.BasicAuthMiddleware,
 	user *middleware.UserMiddleware,
 	rootHandler *handler.RootHandler,
+	locationHandler *handler.LocationHandler,
 ) *Server {
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
@@ -30,6 +31,9 @@ func NewServer(
 
 	engine.Use(auth.WithBasicAuth(), user.WithUser())
 	engine.GET("/", rootHandler.GetRoot)
+
+	// Location estimation endpoint
+	engine.POST("/location/estimate", gin.WrapF(locationHandler.EstimateLocation))
 
 	return &Server{engine: engine}
 }
