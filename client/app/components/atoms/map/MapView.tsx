@@ -1,11 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-import MapboxDraw, {
-  type DrawCreateEvent,
-  type DrawDeleteEvent,
-  type DrawUpdateEvent,
-} from "@mapbox/mapbox-gl-draw";
-import * as turf from "@turf/turf";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
@@ -17,9 +12,6 @@ interface MapViewProps {
 export default function MapView({ mapBoxAccessToken }: MapViewProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const [roundedArea, setRoundedArea] = useState<number | undefined>();
-
-  console.log(roundedArea);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -69,22 +61,25 @@ export default function MapView({ mapBoxAccessToken }: MapViewProps) {
     });
     mapRef.current.addControl(draw);
 
-    mapRef.current.on("draw.create", updateArea);
-    mapRef.current.on("draw.delete", updateArea);
-    mapRef.current.on("draw.update", updateArea);
-
-    function updateArea(
-      e: DrawCreateEvent | DrawUpdateEvent | DrawDeleteEvent,
-    ) {
+    function update() {
       const data = draw.getAll();
+
       if (data.features.length > 0) {
-        const area = turf.area(data);
-        setRoundedArea(Math.round(area * 100) / 100);
-      } else {
-        setRoundedArea(undefined);
-        if (e.type !== "draw.delete") alert("Click the map to draw a polygon.");
+        const feature = data.features[0];
+
+        if (
+          feature.geometry.type === "Polygon" ||
+          feature.geometry.type === "MultiPolygon"
+        ) {
+          const vertices = feature.geometry.coordinates[0];
+          console.log("Vertices:", vertices);
+        }
       }
     }
+
+    mapRef.current.on("draw.create", update);
+    mapRef.current.on("draw.update", update);
+    mapRef.current.on("draw.delete", update);
   }, []);
 
   return (
