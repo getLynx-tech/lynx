@@ -82,9 +82,5 @@ export default function MapView({ mapBoxAccessToken }: MapViewProps) {
     mapRef.current.on("draw.delete", update);
   }, []);
 
-  return (
-    <>
-      <div ref={mapContainerRef} id="map" className="h-full w-full" />
-    </>
-  );
+  return <div ref={mapContainerRef} id="map" className="h-full w-full" />;
 }
