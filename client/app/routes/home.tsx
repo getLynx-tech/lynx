@@ -5,7 +5,7 @@ import { redirect, useLoaderData } from "react-router";
 import MapView from "~/components/atoms/map/MapView";
 import { serverEnv } from "~/env.server";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [{ title: "Lynx" }];
 }
 

@@ -17,7 +17,9 @@ interface MapViewProps {
 export default function MapView({ mapBoxAccessToken }: MapViewProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const [_, setRoundedArea] = useState<number | undefined>();
+  const [roundedArea, setRoundedArea] = useState<number | undefined>();
+
+  console.log(roundedArea);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
