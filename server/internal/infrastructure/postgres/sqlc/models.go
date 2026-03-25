@@ -6,7 +6,17 @@ package sqlc
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
+
+type Scale struct {
+	ID        uuid.UUID
+	Meters    float64
+	Pixels    float64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
 
 type User struct {
 	ID           int64

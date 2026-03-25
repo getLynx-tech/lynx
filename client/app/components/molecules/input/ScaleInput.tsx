@@ -1,18 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useTRPC } from "~/utils/trpc/react";
+import { useMutation } from "@tanstack/react-query";
 
-interface ScaleInputProps {
+interface ScaleFormInput {
   pixels: number;
   meters: number;
 }
 
-export default function ScaleInput() {
-  const { register, handleSubmit } = useForm<ScaleInputProps>();
+interface ScaleInputProps {
+  defaultValues: ScaleFormInput;
+}
+
+export default function ScaleInput({ defaultValues }: ScaleInputProps) {
+  const trpc = useTRPC();
+  const { register, handleSubmit } = useForm<ScaleFormInput>({
+    defaultValues,
+  });
   const [scale, setScale] = useState<number | null>(null);
 
-  const submit: SubmitHandler<ScaleInputProps> = async (data) => {
-    setScale(data.meters / data.pixels);
+  const postScale = useMutation(trpc.scale.postScale.mutationOptions({}));
+
+  const submit: SubmitHandler<ScaleFormInput> = async (data) => {
+    const scale = data.meters / data.pixels;
+    setScale(scale);
+    postScale.mutate({
+      meters: data.meters,
+      pixels: data.pixels,
+    });
   };
+
+  useEffect(() => {
+    const scale = defaultValues.meters / defaultValues.pixels;
+    setScale(scale);
+  }, [defaultValues]);
 
   return (
     <form
@@ -37,7 +58,7 @@ export default function ScaleInput() {
           <span className="flex flex-col">
             <p className="text-sm">Pixels (px)</p>
             <input
-              {...register("pixels", { required: true })}
+              {...register("pixels", { required: true, valueAsNumber: true })}
               className="border-gray-6 w-[250px] rounded-md border-1 p-1 text-sm"
               step="0.01"
               type="number"
@@ -46,7 +67,7 @@ export default function ScaleInput() {
           <span className="flex flex-col">
             <p className="text-sm">Meters (m)</p>
             <input
-              {...register("meters", { required: true })}
+              {...register("meters", { required: true, valueAsNumber: true })}
               type="number"
               step="0.01"
               className="border-gray-6 w-[250px] rounded-md border-1 p-1 text-sm"

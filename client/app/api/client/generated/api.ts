@@ -42,6 +42,69 @@ import {
 /**
  *
  * @export
+ * @interface RequestDeviceRequest
+ */
+export interface RequestDeviceRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof RequestDeviceRequest
+   */
+  device_id: string;
+  /**
+   *
+   * @type {Array<RequestReading>}
+   * @memberof RequestDeviceRequest
+   */
+  readings: Array<RequestReading>;
+}
+/**
+ *
+ * @export
+ * @interface RequestReading
+ */
+export interface RequestReading {
+  /**
+   *
+   * @type {number}
+   * @memberof RequestReading
+   */
+  dist: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RequestReading
+   */
+  id: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RequestReading
+   */
+  rssi: number;
+}
+/**
+ *
+ * @export
+ * @interface RequestScaleRequest
+ */
+export interface RequestScaleRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof RequestScaleRequest
+   */
+  meters: number;
+  /**
+   *
+   * @type {number}
+   * @memberof RequestScaleRequest
+   */
+  pixels: number;
+}
+/**
+ *
+ * @export
  * @interface ResponseRoot
  */
 export interface ResponseRoot {
@@ -51,6 +114,178 @@ export interface ResponseRoot {
    * @memberof ResponseRoot
    */
   message: string;
+}
+/**
+ *
+ * @export
+ * @interface ResponseScale
+ */
+export interface ResponseScale {
+  /**
+   *
+   * @type {number}
+   * @memberof ResponseScale
+   */
+  meters: number;
+  /**
+   *
+   * @type {number}
+   * @memberof ResponseScale
+   */
+  pixels: number;
+}
+
+/**
+ * DeviceApi - axios parameter creator
+ * @export
+ */
+export const DeviceApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @summary UpdateDevicePosition
+     * @param {RequestDeviceRequest} data Device Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateDevicePosition: async (
+      data: RequestDeviceRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'data' is not null or undefined
+      assertParamExists("updateDevicePosition", "data", data);
+      const localVarPath = `/devices/position`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        data,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * DeviceApi - functional programming interface
+ * @export
+ */
+export const DeviceApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = DeviceApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @summary UpdateDevicePosition
+     * @param {RequestDeviceRequest} data Device Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateDevicePosition(
+      data: RequestDeviceRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.updateDevicePosition(data, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["DeviceApi.updateDevicePosition"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * DeviceApi - factory interface
+ * @export
+ */
+export const DeviceApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = DeviceApiFp(configuration);
+  return {
+    /**
+     *
+     * @summary UpdateDevicePosition
+     * @param {RequestDeviceRequest} data Device Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateDevicePosition(
+      data: RequestDeviceRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateDevicePosition(data, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * DeviceApi - object-oriented interface
+ * @export
+ * @class DeviceApi
+ * @extends {BaseAPI}
+ */
+export class DeviceApi extends BaseAPI {
+  /**
+   *
+   * @summary UpdateDevicePosition
+   * @param {RequestDeviceRequest} data Device Request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DeviceApi
+   */
+  public updateDevicePosition(
+    data: RequestDeviceRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return DeviceApiFp(this.configuration)
+      .updateDevicePosition(data, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }
 
 /**
@@ -196,6 +431,249 @@ export class RootApi extends BaseAPI {
   public getRoot(xUserID: string, options?: RawAxiosRequestConfig) {
     return RootApiFp(this.configuration)
       .getRoot(xUserID, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * ScaleApi - axios parameter creator
+ * @export
+ */
+export const ScaleApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @summary CreateScale
+     * @param {RequestScaleRequest} data Scale Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createScale: async (
+      data: RequestScaleRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'data' is not null or undefined
+      assertParamExists("createScale", "data", data);
+      const localVarPath = `/scales`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        data,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary GetScale
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getScale: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/scales`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * ScaleApi - functional programming interface
+ * @export
+ */
+export const ScaleApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = ScaleApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @summary CreateScale
+     * @param {RequestScaleRequest} data Scale Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createScale(
+      data: RequestScaleRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createScale(
+        data,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["ScaleApi.createScale"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary GetScale
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getScale(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseScale>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getScale(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["ScaleApi.getScale"]?.[localVarOperationServerIndex]
+          ?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * ScaleApi - factory interface
+ * @export
+ */
+export const ScaleApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ScaleApiFp(configuration);
+  return {
+    /**
+     *
+     * @summary CreateScale
+     * @param {RequestScaleRequest} data Scale Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createScale(
+      data: RequestScaleRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .createScale(data, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary GetScale
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getScale(options?: RawAxiosRequestConfig): AxiosPromise<ResponseScale> {
+      return localVarFp
+        .getScale(options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * ScaleApi - object-oriented interface
+ * @export
+ * @class ScaleApi
+ * @extends {BaseAPI}
+ */
+export class ScaleApi extends BaseAPI {
+  /**
+   *
+   * @summary CreateScale
+   * @param {RequestScaleRequest} data Scale Request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ScaleApi
+   */
+  public createScale(
+    data: RequestScaleRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ScaleApiFp(this.configuration)
+      .createScale(data, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary GetScale
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ScaleApi
+   */
+  public getScale(options?: RawAxiosRequestConfig) {
+    return ScaleApiFp(this.configuration)
+      .getScale(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

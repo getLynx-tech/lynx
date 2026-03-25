@@ -21,7 +21,7 @@ export default function FloorPlan() {
   ];
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full bg-white">
       <ReactFlow
         nodes={nodes}
         edges={[]}

@@ -65,6 +65,46 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/scales": {
+            "get": {
+                "tags": [
+                    "scale"
+                ],
+                "summary": "GetScale",
+                "operationId": "getScale",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Scale"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "scale"
+                ],
+                "summary": "CreateScale",
+                "operationId": "createScale",
+                "parameters": [
+                    {
+                        "description": "Scale Request",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ScaleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -105,6 +145,21 @@ const docTemplate = `{
                 }
             }
         },
+        "request.ScaleRequest": {
+            "type": "object",
+            "required": [
+                "meters",
+                "pixels"
+            ],
+            "properties": {
+                "meters": {
+                    "type": "number"
+                },
+                "pixels": {
+                    "type": "number"
+                }
+            }
+        },
         "response.Root": {
             "type": "object",
             "required": [
@@ -113,6 +168,21 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "response.Scale": {
+            "type": "object",
+            "required": [
+                "meters",
+                "pixels"
+            ],
+            "properties": {
+                "meters": {
+                    "type": "number"
+                },
+                "pixels": {
+                    "type": "number"
                 }
             }
         }

@@ -4,7 +4,13 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/DeviceApi.md
+docs/RequestDeviceRequest.md
+docs/RequestReading.md
+docs/RequestScaleRequest.md
 docs/ResponseRoot.md
+docs/ResponseScale.md
 docs/RootApi.md
+docs/ScaleApi.md
 git_push.sh
 index.ts
