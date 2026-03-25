@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"server/internal/application"
-	"server/internal/domain"
+	"github.com/getLynx-tech/lynx/internal/application"
+	"github.com/getLynx-tech/lynx/internal/domain"
 )
 
 type LocationHandler struct {

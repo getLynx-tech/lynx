@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math"
 
-	"server/internal/domain"
+	"github.com/getLynx-tech/lynx/internal/domain"
 )
 
 const earthRadius = 6378137.0
