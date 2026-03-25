@@ -1,9 +1,7 @@
 import React from "react";
 import type { Route } from "./+types/home";
 import { auth } from "~/utils/auth/server";
-import { redirect, useLoaderData } from "react-router";
-import MapView from "~/components/atoms/map/MapView";
-import { serverEnv } from "~/env.server";
+import { redirect } from "react-router";
 
 export function meta() {
   return [{ title: "Lynx" }];
@@ -19,18 +17,8 @@ export async function loader(loaderArgs: Route.LoaderArgs) {
   if (!session) {
     return redirect("/login");
   }
-
-  const mapBoxAccessToken = serverEnv.MAPBOX_ACCESS_TOKEN;
-
-  return { mapBoxAccessToken };
 }
 
 export default function Home() {
-  const { mapBoxAccessToken } = useLoaderData<typeof loader>();
-
-  return (
-    <div className="h-screen w-screen">
-      <MapView mapBoxAccessToken={mapBoxAccessToken} />
-    </div>
-  );
+  return <div className="h-screen w-screen"></div>;
 }
