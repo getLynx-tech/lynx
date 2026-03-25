@@ -26,7 +26,7 @@ export default function ScaleInput() {
               Scale Calibration
             </h1>
             <p className="bg-gray-4 cursor-default rounded-md p-0.5 px-1 text-xs">
-              Scale: {Math.round((scale ?? 0) * 100) / 100}
+              Scale: {scale ? Math.round(scale * 100) / 100 : "N/A"}
             </p>
           </span>
           <p className="text-xs text-gray-500">

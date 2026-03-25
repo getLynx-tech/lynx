@@ -6,5 +6,6 @@ var Module = fx.Module(
 	"handler",
 	fx.Provide(
 		NewRootHandler,
+		NewDeviceHandler,
 	),
 )
