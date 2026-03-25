@@ -40,9 +40,70 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/polygon": {
+            "post": {
+                "tags": [
+                    "polygon"
+                ],
+                "summary": "Create Polygon",
+                "operationId": "createPolygon",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User-ID",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Create Polygon",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreatePolygon"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "request.CreatePolygon": {
+            "type": "object",
+            "required": [
+                "id",
+                "vertices"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "vertices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request.Vertex"
+                    }
+                }
+            }
+        },
+        "request.Vertex": {
+            "type": "object",
+            "properties": {
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                }
+            }
+        },
         "response.Root": {
             "type": "object",
             "required": [

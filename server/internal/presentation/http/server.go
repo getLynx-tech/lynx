@@ -22,6 +22,7 @@ func NewServer(
 	auth *middleware.BasicAuthMiddleware,
 	user *middleware.UserMiddleware,
 	rootHandler *handler.RootHandler,
+	polygonHandler *handler.PolygonHandler,
 ) *Server {
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
@@ -30,6 +31,11 @@ func NewServer(
 
 	engine.Use(auth.WithBasicAuth(), user.WithUser())
 	engine.GET("/", rootHandler.GetRoot)
+
+	polygonRoutes := engine.Group("/polygon")
+	{
+		polygonRoutes.POST("", polygonHandler.CreatePolygon)
+	}
 
 	return &Server{engine: engine}
 }

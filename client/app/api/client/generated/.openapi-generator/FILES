@@ -4,6 +4,9 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/PolygonApi.md
+docs/RequestCreatePolygon.md
+docs/RequestVertex.md
 docs/ResponseRoot.md
 docs/RootApi.md
 git_push.sh
