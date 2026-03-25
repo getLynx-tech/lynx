@@ -1,6 +1,13 @@
 import { Controls, ReactFlow } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "~/components/atoms/contextmenu/ContextMenu";
 
 export default function FloorPlan() {
   const nodes = [
@@ -22,14 +29,23 @@ export default function FloorPlan() {
 
   return (
     <div className="h-full w-full bg-white">
-      <ReactFlow
-        nodes={nodes}
-        edges={[]}
-        proOptions={{ hideAttribution: true }}
-        maxZoom={0.5}
-      >
-        <Controls />
-      </ReactFlow>
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <ReactFlow
+            nodes={nodes}
+            edges={[]}
+            proOptions={{ hideAttribution: true }}
+            maxZoom={0.5}
+          >
+            <Controls />
+          </ReactFlow>
+        </ContextMenuTrigger>
+        <ContextMenuContent className="w-48">
+          <ContextMenuGroup>
+            <ContextMenuItem>Add Anchor Point</ContextMenuItem>
+          </ContextMenuGroup>
+        </ContextMenuContent>
+      </ContextMenu>
     </div>
   );
 }

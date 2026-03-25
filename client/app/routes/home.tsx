@@ -26,18 +26,23 @@ export async function loader(loaderArgs: Route.LoaderArgs) {
 
 export default function Home() {
   const trpc = useTRPC();
-  const { data: scaleData } = useQuery(trpc.scale.getScale.queryOptions());
+  const { data: scaleData, isLoading } = useQuery(
+    trpc.scale.getScale.queryOptions(),
+  );
 
   return (
     <div className="h-full w-full">
       <div className="fixed top-4 left-4 z-50">
-        {scaleData && (
+        {scaleData ? (
           <ScaleInput
+            key={isLoading ? "loading" : "loaded"}
             defaultValues={{
-              meters: scaleData?.meters ?? 0,
-              pixels: scaleData?.pixels ?? 0,
+              meters: scaleData.meters,
+              pixels: scaleData.pixels,
             }}
           />
+        ) : (
+          <ScaleInput />
         )}
       </div>
       <div className="fixed top-0 left-0 h-screen w-screen">

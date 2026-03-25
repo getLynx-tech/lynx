@@ -9,13 +9,13 @@ interface ScaleFormInput {
 }
 
 interface ScaleInputProps {
-  defaultValues: ScaleFormInput;
+  defaultValues?: ScaleFormInput;
 }
 
 export default function ScaleInput({ defaultValues }: ScaleInputProps) {
   const trpc = useTRPC();
   const { register, handleSubmit } = useForm<ScaleFormInput>({
-    defaultValues,
+    defaultValues: defaultValues,
   });
   const [scale, setScale] = useState<number | null>(null);
 
@@ -31,6 +31,7 @@ export default function ScaleInput({ defaultValues }: ScaleInputProps) {
   };
 
   useEffect(() => {
+    if (!defaultValues) return;
     const scale = defaultValues.meters / defaultValues.pixels;
     setScale(scale);
   }, [defaultValues]);
