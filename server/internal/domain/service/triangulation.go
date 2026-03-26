@@ -96,6 +96,7 @@ func (ts *TriangulationService) TriangulatePosition(
 
 	return &value.DevicePosition{
 		DeviceId: device.DeviceId,
+		IsActive: device.IsActive,
 		X:        x,
 		Y:        y,
 	}, nil

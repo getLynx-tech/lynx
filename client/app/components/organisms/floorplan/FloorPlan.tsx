@@ -58,28 +58,38 @@ export default function FloorPlan() {
   const { screenToFlowPosition } = useReactFlow();
 
   useEffect(() => {
-    const anchorNodes = anchorNodesData?.map((node) => ({
+    if (!anchorNodesData) return;
+    const anchorNodes = anchorNodesData.map((node) => ({
       id: node.id,
       type: "anchor",
       position: { x: node.x, y: node.y },
       draggable: true,
       selectable: true,
-      data: {
-        id: anchorNodesData.find((n) => n.id === node.id)?.id || "",
-      },
+      data: { id: node.id },
     }));
-    const deviceNodes = deviceNodesData?.map((node) => ({
+    setNodes((prev) => {
+      const nonAnchorNodes = prev.filter((n) => n.type !== "anchor");
+      return [...nonAnchorNodes, ...anchorNodes];
+    });
+  }, [anchorNodesData]);
+
+  useEffect(() => {
+    if (!deviceNodesData) return;
+    const deviceNodes = deviceNodesData.map((node) => ({
       id: node.id,
       type: "device",
       position: { x: node.x, y: node.y },
       draggable: true,
       selectable: true,
       data: {
-        status: node.status === "available" ? "available" : "in use",
+        status: node.status,
       },
     }));
-    setNodes([backgroundNode, ...(deviceNodes ?? []), ...(anchorNodes ?? [])]);
-  }, [anchorNodesData, deviceNodesData]);
+    setNodes((prev) => {
+      const nonDeviceNodes = prev.filter((n) => n.type !== "device");
+      return [...nonDeviceNodes, ...deviceNodes];
+    });
+  }, [deviceNodesData]);
 
   const handleContextMenu = useCallback(
     (event: React.MouseEvent) => {
