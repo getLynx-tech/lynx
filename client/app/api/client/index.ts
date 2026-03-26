@@ -1,4 +1,5 @@
 import {
+  AnchorApiFactory,
   Configuration,
   RootApiFactory,
   ScaleApiFactory,
@@ -18,6 +19,12 @@ export const rootApiFactory = RootApiFactory(
 );
 
 export const scaleApiFactory = ScaleApiFactory(
+  configuration,
+  undefined,
+  axiosInstance,
+);
+
+export const anchorApiFactory = AnchorApiFactory(
   configuration,
   undefined,
   axiosInstance,

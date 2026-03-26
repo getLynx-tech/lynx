@@ -42,6 +42,44 @@ import {
 /**
  *
  * @export
+ * @interface RequestAnchor
+ */
+export interface RequestAnchor {
+  /**
+   *
+   * @type {string}
+   * @memberof RequestAnchor
+   */
+  id: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RequestAnchor
+   */
+  x: number;
+  /**
+   *
+   * @type {number}
+   * @memberof RequestAnchor
+   */
+  y: number;
+}
+/**
+ *
+ * @export
+ * @interface RequestAnchorsRequest
+ */
+export interface RequestAnchorsRequest {
+  /**
+   *
+   * @type {Array<RequestAnchor>}
+   * @memberof RequestAnchorsRequest
+   */
+  anchors: Array<RequestAnchor>;
+}
+/**
+ *
+ * @export
  * @interface RequestDeviceRequest
  */
 export interface RequestDeviceRequest {
@@ -105,6 +143,31 @@ export interface RequestScaleRequest {
 /**
  *
  * @export
+ * @interface ResponseAnchor
+ */
+export interface ResponseAnchor {
+  /**
+   *
+   * @type {string}
+   * @memberof ResponseAnchor
+   */
+  id: string;
+  /**
+   *
+   * @type {number}
+   * @memberof ResponseAnchor
+   */
+  x: number;
+  /**
+   *
+   * @type {number}
+   * @memberof ResponseAnchor
+   */
+  y: number;
+}
+/**
+ *
+ * @export
  * @interface ResponseRoot
  */
 export interface ResponseRoot {
@@ -133,6 +196,255 @@ export interface ResponseScale {
    * @memberof ResponseScale
    */
   pixels: number;
+}
+
+/**
+ * AnchorApi - axios parameter creator
+ * @export
+ */
+export const AnchorApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @summary GetAllAnchors
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllAnchors: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/anchors`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary UpsertAnchors
+     * @param {RequestAnchorsRequest} data Anchors Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    upsertAnchors: async (
+      data: RequestAnchorsRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'data' is not null or undefined
+      assertParamExists("upsertAnchors", "data", data);
+      const localVarPath = `/anchors`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        data,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * AnchorApi - functional programming interface
+ * @export
+ */
+export const AnchorApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = AnchorApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @summary GetAllAnchors
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getAllAnchors(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<ResponseAnchor>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getAllAnchors(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["AnchorApi.getAllAnchors"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary UpsertAnchors
+     * @param {RequestAnchorsRequest} data Anchors Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async upsertAnchors(
+      data: RequestAnchorsRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.upsertAnchors(
+        data,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["AnchorApi.upsertAnchors"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * AnchorApi - factory interface
+ * @export
+ */
+export const AnchorApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = AnchorApiFp(configuration);
+  return {
+    /**
+     *
+     * @summary GetAllAnchors
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllAnchors(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<ResponseAnchor>> {
+      return localVarFp
+        .getAllAnchors(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary UpsertAnchors
+     * @param {RequestAnchorsRequest} data Anchors Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    upsertAnchors(
+      data: RequestAnchorsRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .upsertAnchors(data, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * AnchorApi - object-oriented interface
+ * @export
+ * @class AnchorApi
+ * @extends {BaseAPI}
+ */
+export class AnchorApi extends BaseAPI {
+  /**
+   *
+   * @summary GetAllAnchors
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnchorApi
+   */
+  public getAllAnchors(options?: RawAxiosRequestConfig) {
+    return AnchorApiFp(this.configuration)
+      .getAllAnchors(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary UpsertAnchors
+   * @param {RequestAnchorsRequest} data Anchors Request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnchorApi
+   */
+  public upsertAnchors(
+    data: RequestAnchorsRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return AnchorApiFp(this.configuration)
+      .upsertAnchors(data, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }
 
 /**

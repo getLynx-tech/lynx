@@ -9,5 +9,6 @@ var Module = fx.Module(
 	fx.Provide(
 		NewUserRepository,
 		NewScaleRepository,
+		NewAnchorRepository,
 	),
 )
