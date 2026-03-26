@@ -10,7 +10,9 @@ import (
 )
 
 const getAllDevices = `-- name: GetAllDevices :many
-SELECT id, device_id, status, x, y, created_at, updated_at FROM devices
+SELECT id, device_id, status, x, y, created_at, updated_at
+FROM devices
+WHERE updated_at >= NOW() - INTERVAL '1 minutes'
 `
 
 func (q *Queries) GetAllDevices(ctx context.Context) ([]Device, error) {
