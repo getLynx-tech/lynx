@@ -33,7 +33,6 @@ definitions:
         type: array
     required:
     - device_id
-    - is_active
     - readings
     type: object
   request.Reading:
@@ -71,6 +70,17 @@ definitions:
     - id
     - x
     - "y"
+    type: object
+  response.Device:
+    properties:
+      id:
+        type: string
+      status:
+        type: string
+      x:
+        type: number
+      "y":
+        type: number
     type: object
   response.Root:
     properties:
@@ -139,6 +149,19 @@ paths:
       summary: UpsertAnchors
       tags:
       - anchor
+  /devices:
+    get:
+      operationId: getAllDevices
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Device'
+            type: array
+      summary: GetAllDevices
+      tags:
+      - device
   /devices/position:
     post:
       operationId: upsertDevicePosition

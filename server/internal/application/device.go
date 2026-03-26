@@ -29,6 +29,25 @@ func NewDeviceApplication(
 	}
 }
 
+func (da *DeviceApplication) GetAllDevices(ctx context.Context) ([]*value.PersistedDevice, error) {
+	devices, err := da.deviceRepository.GetAllDevices(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	deviceValues := make([]*value.PersistedDevice, len(devices))
+	for i, device := range devices {
+		deviceValues[i] = &value.PersistedDevice{
+			DeviceId: device.Id,
+			Status:   device.Status,
+			X:        device.X,
+			Y:        device.Y,
+		}
+	}
+
+	return deviceValues, nil
+}
+
 func (da *DeviceApplication) UpsertDevicePosition(ctx context.Context, device *value.Device) error {
 	scale, err := da.scaleRepository.GetScale(ctx)
 	if err != nil {

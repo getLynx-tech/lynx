@@ -4,11 +4,52 @@ All URIs are relative to _http://localhost_
 
 | Method                                            | HTTP request               | Description          |
 | ------------------------------------------------- | -------------------------- | -------------------- |
-| [**updateDevicePosition**](#updatedeviceposition) | **POST** /devices/position | UpdateDevicePosition |
+| [**getAllDevices**](#getalldevices)               | **GET** /devices           | GetAllDevices        |
+| [**upsertDevicePosition**](#upsertdeviceposition) | **POST** /devices/position | UpsertDevicePosition |
 
-# **updateDevicePosition**
+# **getAllDevices**
 
-> updateDevicePosition(data)
+> Array<ResponseDevice> getAllDevices()
+
+### Example
+
+```typescript
+import { DeviceApi, Configuration } from "./api";
+
+const configuration = new Configuration();
+const apiInstance = new DeviceApi(configuration);
+
+const { status, data } = await apiInstance.getAllDevices();
+```
+
+### Parameters
+
+This endpoint does not have any parameters.
+
+### Return type
+
+**Array<ResponseDevice>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: _/_
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upsertDevicePosition**
+
+> upsertDevicePosition(data)
 
 ### Example
 
@@ -20,7 +61,7 @@ const apiInstance = new DeviceApi(configuration);
 
 let data: RequestDeviceRequest; //Device Request
 
-const { status, data } = await apiInstance.updateDevicePosition(data);
+const { status, data } = await apiInstance.upsertDevicePosition(data);
 ```
 
 ### Parameters

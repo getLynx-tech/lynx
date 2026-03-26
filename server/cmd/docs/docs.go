@@ -84,6 +84,26 @@ const docTemplate = `{
                 }
             }
         },
+        "/devices": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "summary": "GetAllDevices",
+                "operationId": "getAllDevices",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Device"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/devices/position": {
             "post": {
                 "tags": [
@@ -188,7 +208,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "device_id",
-                "is_active",
                 "readings"
             ],
             "properties": {
@@ -249,6 +268,23 @@ const docTemplate = `{
             ],
             "properties": {
                 "id": {
+                    "type": "string"
+                },
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                }
+            }
+        },
+        "response.Device": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 },
                 "x": {

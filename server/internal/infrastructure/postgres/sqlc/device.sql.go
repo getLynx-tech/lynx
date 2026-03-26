@@ -9,6 +9,41 @@ import (
 	"context"
 )
 
+const getAllDevices = `-- name: GetAllDevices :many
+SELECT id, device_id, status, x, y, created_at, updated_at FROM devices
+`
+
+func (q *Queries) GetAllDevices(ctx context.Context) ([]Device, error) {
+	rows, err := q.db.QueryContext(ctx, getAllDevices)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Device
+	for rows.Next() {
+		var i Device
+		if err := rows.Scan(
+			&i.ID,
+			&i.DeviceID,
+			&i.Status,
+			&i.X,
+			&i.Y,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const upsertDevice = `-- name: UpsertDevice :one
 INSERT INTO devices (
     device_id,

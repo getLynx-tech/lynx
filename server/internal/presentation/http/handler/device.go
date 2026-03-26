@@ -4,6 +4,7 @@ import (
 	"github.com/getLynx-tech/lynx/internal/application"
 	"github.com/getLynx-tech/lynx/internal/domain/value"
 	"github.com/getLynx-tech/lynx/internal/presentation/http/dto/request"
+	"github.com/getLynx-tech/lynx/internal/presentation/http/dto/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -16,6 +17,21 @@ func NewDeviceHandler(deviceApplication *application.DeviceApplication) *DeviceH
 	return &DeviceHandler{
 		deviceApplication: deviceApplication,
 	}
+}
+
+// GetAllDevices FindAll godoc
+// @Summary GetAllDevices
+// @Tags device
+// @ID getAllDevices
+// @Success 200 {array} response.Device
+// @Router /devices [get]
+func (dh *DeviceHandler) GetAllDevices(c *gin.Context) {
+	devices, err := dh.deviceApplication.GetAllDevices(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, response.NewDevices(devices))
 }
 
 // UpsertPosition FindAll godoc

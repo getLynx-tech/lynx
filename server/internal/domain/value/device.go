@@ -18,3 +18,10 @@ type DevicePosition struct {
 	X        float64
 	Y        float64
 }
+
+type PersistedDevice struct {
+	DeviceId string
+	Status   string
+	X        float64
+	Y        float64
+}

@@ -91,6 +91,12 @@ export interface RequestDeviceRequest {
   device_id: string;
   /**
    *
+   * @type {boolean}
+   * @memberof RequestDeviceRequest
+   */
+  is_active?: boolean;
+  /**
+   *
    * @type {Array<RequestReading>}
    * @memberof RequestDeviceRequest
    */
@@ -164,6 +170,37 @@ export interface ResponseAnchor {
    * @memberof ResponseAnchor
    */
   y: number;
+}
+/**
+ *
+ * @export
+ * @interface ResponseDevice
+ */
+export interface ResponseDevice {
+  /**
+   *
+   * @type {string}
+   * @memberof ResponseDevice
+   */
+  id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ResponseDevice
+   */
+  status?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof ResponseDevice
+   */
+  x?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof ResponseDevice
+   */
+  y?: number;
 }
 /**
  *
@@ -457,17 +494,56 @@ export const DeviceApiAxiosParamCreator = function (
   return {
     /**
      *
-     * @summary UpdateDevicePosition
+     * @summary GetAllDevices
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllDevices: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/devices`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary UpsertDevicePosition
      * @param {RequestDeviceRequest} data Device Request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateDevicePosition: async (
+    upsertDevicePosition: async (
       data: RequestDeviceRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'data' is not null or undefined
-      assertParamExists("updateDevicePosition", "data", data);
+      assertParamExists("upsertDevicePosition", "data", data);
       const localVarPath = `/devices/position`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -517,22 +593,51 @@ export const DeviceApiFp = function (configuration?: Configuration) {
   return {
     /**
      *
-     * @summary UpdateDevicePosition
+     * @summary GetAllDevices
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getAllDevices(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<ResponseDevice>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getAllDevices(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["DeviceApi.getAllDevices"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary UpsertDevicePosition
      * @param {RequestDeviceRequest} data Device Request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async updateDevicePosition(
+    async upsertDevicePosition(
       data: RequestDeviceRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.updateDevicePosition(data, options);
+        await localVarAxiosParamCreator.upsertDevicePosition(data, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap["DeviceApi.updateDevicePosition"]?.[
+        operationServerMap["DeviceApi.upsertDevicePosition"]?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -559,17 +664,30 @@ export const DeviceApiFactory = function (
   return {
     /**
      *
-     * @summary UpdateDevicePosition
+     * @summary GetAllDevices
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllDevices(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<ResponseDevice>> {
+      return localVarFp
+        .getAllDevices(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary UpsertDevicePosition
      * @param {RequestDeviceRequest} data Device Request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateDevicePosition(
+    upsertDevicePosition(
       data: RequestDeviceRequest,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .updateDevicePosition(data, options)
+        .upsertDevicePosition(data, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -584,18 +702,31 @@ export const DeviceApiFactory = function (
 export class DeviceApi extends BaseAPI {
   /**
    *
-   * @summary UpdateDevicePosition
+   * @summary GetAllDevices
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DeviceApi
+   */
+  public getAllDevices(options?: RawAxiosRequestConfig) {
+    return DeviceApiFp(this.configuration)
+      .getAllDevices(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary UpsertDevicePosition
    * @param {RequestDeviceRequest} data Device Request
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DeviceApi
    */
-  public updateDevicePosition(
+  public upsertDevicePosition(
     data: RequestDeviceRequest,
     options?: RawAxiosRequestConfig,
   ) {
     return DeviceApiFp(this.configuration)
-      .updateDevicePosition(data, options)
+      .upsertDevicePosition(data, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

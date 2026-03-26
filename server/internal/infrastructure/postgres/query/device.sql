@@ -16,3 +16,6 @@ ON CONFLICT (device_id)
       x = EXCLUDED.x,
       y = EXCLUDED.y
 RETURNING *;
+
+-- name: GetAllDevices :many
+SELECT * FROM devices;  

@@ -12,6 +12,7 @@ docs/RequestDeviceRequest.md
 docs/RequestReading.md
 docs/RequestScaleRequest.md
 docs/ResponseAnchor.md
+docs/ResponseDevice.md
 docs/ResponseRoot.md
 docs/ResponseScale.md
 docs/RootApi.md
