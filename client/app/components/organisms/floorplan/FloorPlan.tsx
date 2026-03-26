@@ -22,6 +22,7 @@ import AnchorNode from "~/components/atoms/node/AnchorNode";
 import { useTRPC } from "~/utils/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Spinner } from "~/components/ui/spinner";
+import DeviceNode from "~/components/atoms/node/DeviceNode";
 
 const backgroundNode = {
   id: "bg",
@@ -60,7 +61,20 @@ export default function FloorPlan() {
       selectable: true,
       data: {},
     }));
-    setNodes([backgroundNode, ...anchorNodes]);
+    setNodes([
+      backgroundNode,
+      {
+        id: `device-${Date.now()}`,
+        type: "device",
+        position: { x: 0, y: 0 },
+        draggable: true,
+        selectable: true,
+        data: {
+          status: "in use",
+        },
+      },
+      ...anchorNodes,
+    ]);
   }, [anchorNodesData]);
 
   const handleContextMenu = useCallback(
@@ -78,6 +92,7 @@ export default function FloorPlan() {
     return {
       background: BackgroundNode,
       anchor: AnchorNode,
+      device: DeviceNode,
     };
   }, []);
 
