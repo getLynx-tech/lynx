@@ -1,3 +1,4 @@
+import React from "react";
 import { type Node, type NodeProps } from "@xyflow/react";
 import { cn } from "~/utils/cn";
 
