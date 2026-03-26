@@ -18,4 +18,6 @@ ON CONFLICT (device_id)
 RETURNING *;
 
 -- name: GetAllDevices :many
-SELECT * FROM devices;  
+SELECT *
+FROM devices
+WHERE updated_at >= NOW() - INTERVAL '1 minutes';

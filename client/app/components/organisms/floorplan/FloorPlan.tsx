@@ -23,6 +23,17 @@ import { useTRPC } from "~/utils/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Spinner } from "~/components/ui/spinner";
 import DeviceNode from "~/components/atoms/node/DeviceNode";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 
 const backgroundNode = {
   id: "bg",
@@ -49,6 +60,9 @@ export default function FloorPlan() {
   const upsertAnchorNodes = useMutation(
     trpc.anchorRouter.upsertAnchors.mutationOptions(),
   );
+
+  const [showDialog, setShowDialog] = useState<boolean>(false);
+  const [anchorId, setAnchorId] = useState("");
 
   const [nodes, setNodes, onNodesChange] = useNodesState([backgroundNode]);
   const [lastClickPosition, setLastClickPosition] = useState<{
@@ -79,8 +93,8 @@ export default function FloorPlan() {
       id: node.id,
       type: "device",
       position: { x: node.x, y: node.y },
-      draggable: true,
-      selectable: true,
+      draggable: false,
+      selectable: false,
       data: {
         status: node.status,
       },
@@ -116,15 +130,19 @@ export default function FloorPlan() {
     setNodes((prev) => [
       ...prev,
       {
-        id: `anchor-${Date.now()}`,
+        id: anchorId,
         type: "anchor",
         position: lastClickPosition,
         draggable: true,
         selectable: true,
-        data: {},
+        data: {
+          id: anchorId,
+        },
       },
     ]);
-  }, [lastClickPosition, setNodes]);
+
+    setShowDialog(false);
+  }, [lastClickPosition, setNodes, anchorId]);
 
   const onSubmit = useCallback(() => {
     const anchors = nodes
@@ -140,6 +158,29 @@ export default function FloorPlan() {
 
   return (
     <>
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Anchor ID</DialogTitle>
+            <DialogDescription>
+              Please enter the ID of the anchor point.
+            </DialogDescription>
+          </DialogHeader>
+          <form>
+            <Input
+              placeholder="Anchor ID"
+              value={anchorId}
+              onChange={(e) => setAnchorId(e.target.value)}
+            />
+          </form>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleAddAnchor}>Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <div className="fixed top-4 right-4 z-50">
         <button
           onClick={onSubmit}
@@ -160,7 +201,9 @@ export default function FloorPlan() {
                 edges={[]}
                 onNodesChange={onNodesChange}
                 proOptions={{ hideAttribution: true }}
-                maxZoom={0.5}
+                minZoom={0.1}
+                maxZoom={1}
+                fitView
               >
                 <Controls />
               </ReactFlow>
@@ -170,7 +213,7 @@ export default function FloorPlan() {
             <ContextMenuGroup>
               <ContextMenuItem
                 className="flex gap-2"
-                onSelect={handleAddAnchor}
+                onSelect={() => setShowDialog(true)}
               >
                 <Anchor />
                 Add Anchor Point
