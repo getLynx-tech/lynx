@@ -1,25 +1,25 @@
-# DeviceApi
+# AnchorApi
 
 All URIs are relative to _http://localhost_
 
-| Method                                            | HTTP request               | Description          |
-| ------------------------------------------------- | -------------------------- | -------------------- |
-| [**getAllDevices**](#getalldevices)               | **GET** /devices           | GetAllDevices        |
-| [**upsertDevicePosition**](#upsertdeviceposition) | **POST** /devices/position | UpsertDevicePosition |
+| Method                              | HTTP request      | Description   |
+| ----------------------------------- | ----------------- | ------------- |
+| [**getAllAnchors**](#getallanchors) | **GET** /anchors  | GetAllAnchors |
+| [**upsertAnchors**](#upsertanchors) | **POST** /anchors | UpsertAnchors |
 
-# **getAllDevices**
+# **getAllAnchors**
 
-> Array<ResponseDevice> getAllDevices()
+> Array<ResponseAnchor> getAllAnchors()
 
 ### Example
 
 ```typescript
-import { DeviceApi, Configuration } from "./api";
+import { AnchorApi, Configuration } from "./api";
 
 const configuration = new Configuration();
-const apiInstance = new DeviceApi(configuration);
+const apiInstance = new AnchorApi(configuration);
 
-const { status, data } = await apiInstance.getAllDevices();
+const { status, data } = await apiInstance.getAllAnchors();
 ```
 
 ### Parameters
@@ -28,7 +28,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**Array<ResponseDevice>**
+**Array<ResponseAnchor>**
 
 ### Authorization
 
@@ -47,28 +47,28 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **upsertDevicePosition**
+# **upsertAnchors**
 
-> upsertDevicePosition(data)
+> upsertAnchors(data)
 
 ### Example
 
 ```typescript
-import { DeviceApi, Configuration, RequestDeviceRequest } from "./api";
+import { AnchorApi, Configuration, RequestAnchorsRequest } from "./api";
 
 const configuration = new Configuration();
-const apiInstance = new DeviceApi(configuration);
+const apiInstance = new AnchorApi(configuration);
 
-let data: RequestDeviceRequest; //Device Request
+let data: RequestAnchorsRequest; //Anchors Request
 
-const { status, data } = await apiInstance.upsertDevicePosition(data);
+const { status, data } = await apiInstance.upsertAnchors(data);
 ```
 
 ### Parameters
 
-| Name     | Type                     | Description    | Notes |
-| -------- | ------------------------ | -------------- | ----- |
-| **data** | **RequestDeviceRequest** | Device Request |       |
+| Name     | Type                      | Description     | Notes |
+| -------- | ------------------------- | --------------- | ----- |
+| **data** | **RequestAnchorsRequest** | Anchors Request |       |
 
 ### Return type
 
@@ -87,6 +87,6 @@ No authorization required
 
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
-| **200**     | OK          | -                |
+| **201**     | Created     | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

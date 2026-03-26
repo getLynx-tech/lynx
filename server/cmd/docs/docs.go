@@ -41,13 +41,76 @@ const docTemplate = `{
                 }
             }
         },
+        "/anchors": {
+            "get": {
+                "tags": [
+                    "anchor"
+                ],
+                "summary": "GetAllAnchors",
+                "operationId": "getAllAnchors",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Anchor"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "anchor"
+                ],
+                "summary": "UpsertAnchors",
+                "operationId": "upsertAnchors",
+                "parameters": [
+                    {
+                        "description": "Anchors Request",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AnchorsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/devices": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "summary": "GetAllDevices",
+                "operationId": "getAllDevices",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Device"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/devices/position": {
             "post": {
                 "tags": [
                     "device"
                 ],
-                "summary": "UpdateDevicePosition",
-                "operationId": "updateDevicePosition",
+                "summary": "UpsertDevicePosition",
+                "operationId": "upsertDevicePosition",
                 "parameters": [
                     {
                         "description": "Device Request",
@@ -108,6 +171,39 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.Anchor": {
+            "type": "object",
+            "required": [
+                "id",
+                "x",
+                "y"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                }
+            }
+        },
+        "request.AnchorsRequest": {
+            "type": "object",
+            "required": [
+                "anchors"
+            ],
+            "properties": {
+                "anchors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request.Anchor"
+                    }
+                }
+            }
+        },
         "request.DeviceRequest": {
             "type": "object",
             "required": [
@@ -117,6 +213,9 @@ const docTemplate = `{
             "properties": {
                 "device_id": {
                     "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "readings": {
                     "type": "array",
@@ -156,6 +255,48 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "pixels": {
+                    "type": "number"
+                }
+            }
+        },
+        "response.Anchor": {
+            "type": "object",
+            "required": [
+                "id",
+                "x",
+                "y"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                }
+            }
+        },
+        "response.Device": {
+            "type": "object",
+            "required": [
+                "id",
+                "status",
+                "x",
+                "y"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "x": {
+                    "type": "number"
+                },
+                "y": {
                     "type": "number"
                 }
             }

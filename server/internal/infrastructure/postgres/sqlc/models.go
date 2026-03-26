@@ -10,6 +10,25 @@ import (
 	"github.com/google/uuid"
 )
 
+type Anchor struct {
+	ID        uuid.UUID
+	AnchorID  string
+	X         float64
+	Y         float64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+type Device struct {
+	ID        uuid.UUID
+	DeviceID  string
+	Status    string
+	X         float64
+	Y         float64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
 type Scale struct {
 	ID        uuid.UUID
 	Meters    float64

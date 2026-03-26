@@ -21,6 +21,7 @@ func NewServer(
 	rootHandler *handler.RootHandler,
 	deviceHandler *handler.DeviceHandler,
 	scaleHandler *handler.ScaleHandler,
+	anchorHandler *handler.AnchorHandler,
 ) *Server {
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
@@ -30,13 +31,20 @@ func NewServer(
 	engine.GET("/", rootHandler.GetRoot)
 	devices := engine.Group("/devices")
 	{
-		devices.POST("/position", deviceHandler.UpdatePosition)
+		devices.GET("", deviceHandler.GetAllDevices)
+		devices.POST("/position", deviceHandler.UpsertPosition)
 	}
 
 	scales := engine.Group("/scales")
 	{
 		scales.POST("", scaleHandler.CreateScale)
 		scales.GET("", scaleHandler.GetScale)
+	}
+
+	anchors := engine.Group("/anchors")
+	{
+		anchors.POST("", anchorHandler.UpsertAnchors)
+		anchors.GET("", anchorHandler.GetAllAnchors)
 	}
 
 	return &Server{engine: engine}

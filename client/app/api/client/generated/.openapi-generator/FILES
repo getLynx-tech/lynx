@@ -4,10 +4,15 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/AnchorApi.md
 docs/DeviceApi.md
+docs/RequestAnchor.md
+docs/RequestAnchorsRequest.md
 docs/RequestDeviceRequest.md
 docs/RequestReading.md
 docs/RequestScaleRequest.md
+docs/ResponseAnchor.md
+docs/ResponseDevice.md
 docs/ResponseRoot.md
 docs/ResponseScale.md
 docs/RootApi.md

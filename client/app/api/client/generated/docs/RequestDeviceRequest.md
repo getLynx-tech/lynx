@@ -2,10 +2,11 @@
 
 ## Properties
 
-| Name          | Type                                                 | Description | Notes                  |
-| ------------- | ---------------------------------------------------- | ----------- | ---------------------- |
-| **device_id** | **string**                                           |             | [default to undefined] |
-| **readings**  | [**Array&lt;RequestReading&gt;**](RequestReading.md) |             | [default to undefined] |
+| Name          | Type                                                 | Description | Notes                             |
+| ------------- | ---------------------------------------------------- | ----------- | --------------------------------- |
+| **device_id** | **string**                                           |             | [default to undefined]            |
+| **is_active** | **boolean**                                          |             | [optional] [default to undefined] |
+| **readings**  | [**Array&lt;RequestReading&gt;**](RequestReading.md) |             | [default to undefined]            |
 
 ## Example
 
@@ -14,6 +15,7 @@ import { RequestDeviceRequest } from "./api";
 
 const instance: RequestDeviceRequest = {
   device_id,
+  is_active,
   readings,
 };
 ```
