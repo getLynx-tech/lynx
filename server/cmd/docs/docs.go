@@ -89,8 +89,8 @@ const docTemplate = `{
                 "tags": [
                     "device"
                 ],
-                "summary": "UpdateDevicePosition",
-                "operationId": "updateDevicePosition",
+                "summary": "UpsertDevicePosition",
+                "operationId": "upsertDevicePosition",
                 "parameters": [
                     {
                         "description": "Device Request",
@@ -188,11 +188,15 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "device_id",
+                "is_active",
                 "readings"
             ],
             "properties": {
                 "device_id": {
                     "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "readings": {
                     "type": "array",

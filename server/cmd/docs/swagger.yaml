@@ -25,12 +25,15 @@ definitions:
     properties:
       device_id:
         type: string
+      is_active:
+        type: boolean
       readings:
         items:
           $ref: '#/definitions/request.Reading'
         type: array
     required:
     - device_id
+    - is_active
     - readings
     type: object
   request.Reading:
@@ -138,7 +141,7 @@ paths:
       - anchor
   /devices/position:
     post:
-      operationId: updateDevicePosition
+      operationId: upsertDevicePosition
       parameters:
       - description: Device Request
         in: body
@@ -149,7 +152,7 @@ paths:
       responses:
         "200":
           description: OK
-      summary: UpdateDevicePosition
+      summary: UpsertDevicePosition
       tags:
       - device
   /scales:

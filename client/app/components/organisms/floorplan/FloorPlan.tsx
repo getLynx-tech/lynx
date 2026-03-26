@@ -59,7 +59,9 @@ export default function FloorPlan() {
       position: { x: node.x, y: node.y },
       draggable: true,
       selectable: true,
-      data: {},
+      data: {
+        id: anchorNodesData.find((n) => n.id === node.id)?.id || "",
+      },
     }));
     setNodes([
       backgroundNode,

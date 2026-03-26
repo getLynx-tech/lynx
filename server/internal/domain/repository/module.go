@@ -10,5 +10,6 @@ var Module = fx.Module(
 		NewUserRepository,
 		NewScaleRepository,
 		NewAnchorRepository,
+		NewDeviceRepository,
 	),
 )

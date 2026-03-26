@@ -8,5 +8,6 @@ type Reading struct {
 
 type DeviceRequest struct {
 	DeviceId string    `json:"device_id" binding:"required"`
+	IsActive bool      `json:"is_active"`
 	Readings []Reading `json:"readings" binding:"required"`
 }

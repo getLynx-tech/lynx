@@ -8,5 +8,6 @@ var Module = fx.Module(
 		NewUserApplication,
 		NewScaleApplication,
 		NewAnchorApplication,
+		NewDeviceApplication,
 	),
 )

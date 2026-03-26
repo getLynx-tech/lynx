@@ -31,7 +31,7 @@ func NewServer(
 	engine.GET("/", rootHandler.GetRoot)
 	devices := engine.Group("/devices")
 	{
-		devices.POST("/position", deviceHandler.UpdatePosition)
+		devices.POST("/position", deviceHandler.UpsertPosition)
 	}
 
 	scales := engine.Group("/scales")
