@@ -1,6 +1,7 @@
 import {
   AnchorApiFactory,
   Configuration,
+  DeviceApiFactory,
   RootApiFactory,
   ScaleApiFactory,
 } from "~/api/client/generated";
@@ -25,6 +26,12 @@ export const scaleApiFactory = ScaleApiFactory(
 );
 
 export const anchorApiFactory = AnchorApiFactory(
+  configuration,
+  undefined,
+  axiosInstance,
+);
+
+export const deviceApiFactory = DeviceApiFactory(
   configuration,
   undefined,
   axiosInstance,

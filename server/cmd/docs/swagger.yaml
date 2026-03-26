@@ -81,6 +81,11 @@ definitions:
         type: number
       "y":
         type: number
+    required:
+    - id
+    - status
+    - x
+    - "y"
     type: object
   response.Root:
     properties:

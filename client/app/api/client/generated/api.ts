@@ -182,25 +182,25 @@ export interface ResponseDevice {
    * @type {string}
    * @memberof ResponseDevice
    */
-  id?: string;
+  id: string;
   /**
    *
    * @type {string}
    * @memberof ResponseDevice
    */
-  status?: string;
+  status: string;
   /**
    *
    * @type {number}
    * @memberof ResponseDevice
    */
-  x?: number;
+  x: number;
   /**
    *
    * @type {number}
    * @memberof ResponseDevice
    */
-  y?: number;
+  y: number;
 }
 /**
  *

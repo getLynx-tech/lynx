@@ -3,10 +3,10 @@ package response
 import "github.com/getLynx-tech/lynx/internal/domain/value"
 
 type Device struct {
-	Id     string
-	Status string
-	X      float64
-	Y      float64
+	Id     string  `json:"id" validate:"required"`
+	Status string  `json:"status" validate:"required"`
+	X      float64 `json:"x" validate:"required"`
+	Y      float64 `json:"y" validate:"required"`
 }
 
 func NewDevice(d *value.PersistedDevice) Device {

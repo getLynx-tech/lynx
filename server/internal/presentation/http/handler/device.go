@@ -1,11 +1,13 @@
 package handler
 
 import (
+	"encoding/json"
 	"github.com/getLynx-tech/lynx/internal/application"
 	"github.com/getLynx-tech/lynx/internal/domain/value"
 	"github.com/getLynx-tech/lynx/internal/presentation/http/dto/request"
 	"github.com/getLynx-tech/lynx/internal/presentation/http/dto/response"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -47,6 +49,9 @@ func (dh *DeviceHandler) UpsertPosition(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
+
+	b, _ := json.Marshal(body)
+	log.Printf("%s", string(b))
 
 	readings := make([]*value.Reading, len(body.Readings))
 	for i, reading := range body.Readings {

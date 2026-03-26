@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"github.com/getLynx-tech/lynx/internal/domain/value"
+	"math"
 )
 
 type TriangulationService struct {
@@ -71,7 +72,7 @@ func (ts *TriangulationService) TriangulatePosition(
 		a1 := 2 * (yi - yn)
 		b := dn*dn - di*di + xi*xi - xn*xn + yi*yi - yn*yn
 
-		// Weight: favor closer anchors; guard against zero distance
+		// Weight: favour closer anchors; guard against zero distance
 		w := 1.0
 		if di > 0 {
 			w = 1.0 / (di * di)
@@ -86,9 +87,9 @@ func (ts *TriangulationService) TriangulatePosition(
 
 	// Solve 2×2 system via Cramer's rule
 	det := ata00*ata11 - ata01*ata01
-	//if math.Abs(det) < 1e-10 {
-	//	return nil, errors.New("anchors are collinear or too close together; cannot triangulate")
-	//}
+	if math.Abs(det) < 1e-10 {
+		return nil, errors.New("anchors are collinear or too close together; cannot triangulate")
+	}
 
 	x := (atb0*ata11 - atb1*ata01) / det
 	y := (ata00*atb1 - ata01*atb0) / det

@@ -280,6 +280,12 @@ const docTemplate = `{
         },
         "response.Device": {
             "type": "object",
+            "required": [
+                "id",
+                "status",
+                "x",
+                "y"
+            ],
             "properties": {
                 "id": {
                     "type": "string"

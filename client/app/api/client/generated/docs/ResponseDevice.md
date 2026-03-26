@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name       | Type       | Description | Notes                             |
-| ---------- | ---------- | ----------- | --------------------------------- |
-| **id**     | **string** |             | [optional] [default to undefined] |
-| **status** | **string** |             | [optional] [default to undefined] |
-| **x**      | **number** |             | [optional] [default to undefined] |
-| **y**      | **number** |             | [optional] [default to undefined] |
+| Name       | Type       | Description | Notes                  |
+| ---------- | ---------- | ----------- | ---------------------- |
+| **id**     | **string** |             | [default to undefined] |
+| **status** | **string** |             | [default to undefined] |
+| **x**      | **number** |             | [default to undefined] |
+| **y**      | **number** |             | [default to undefined] |
 
 ## Example
 

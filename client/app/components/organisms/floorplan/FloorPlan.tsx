@@ -40,6 +40,12 @@ export default function FloorPlan() {
     trpc.anchorRouter.getAllAnchors.queryOptions(),
   );
 
+  const { data: deviceNodesData } = useQuery(
+    trpc.deviceRouter.getAllDevices.queryOptions(undefined, {
+      refetchInterval: 500,
+    }),
+  );
+
   const upsertAnchorNodes = useMutation(
     trpc.anchorRouter.upsertAnchors.mutationOptions(),
   );
@@ -52,8 +58,7 @@ export default function FloorPlan() {
   const { screenToFlowPosition } = useReactFlow();
 
   useEffect(() => {
-    if (!anchorNodesData) return;
-    const anchorNodes = anchorNodesData.map((node) => ({
+    const anchorNodes = anchorNodesData?.map((node) => ({
       id: node.id,
       type: "anchor",
       position: { x: node.x, y: node.y },
@@ -63,21 +68,18 @@ export default function FloorPlan() {
         id: anchorNodesData.find((n) => n.id === node.id)?.id || "",
       },
     }));
-    setNodes([
-      backgroundNode,
-      {
-        id: `device-${Date.now()}`,
-        type: "device",
-        position: { x: 0, y: 0 },
-        draggable: true,
-        selectable: true,
-        data: {
-          status: "in use",
-        },
+    const deviceNodes = deviceNodesData?.map((node) => ({
+      id: node.id,
+      type: "device",
+      position: { x: node.x, y: node.y },
+      draggable: true,
+      selectable: true,
+      data: {
+        status: node.status === "available" ? "available" : "in use",
       },
-      ...anchorNodes,
-    ]);
-  }, [anchorNodesData]);
+    }));
+    setNodes([backgroundNode, ...(deviceNodes ?? []), ...(anchorNodes ?? [])]);
+  }, [anchorNodesData, deviceNodesData]);
 
   const handleContextMenu = useCallback(
     (event: React.MouseEvent) => {
